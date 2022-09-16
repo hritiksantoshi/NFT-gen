@@ -3,13 +3,16 @@ const path = require('path');
 const fs = require('fs');
 const userUpload = multer.diskStorage({
     destination: function (req, file, cb) {
+        if(!req.layers.includes(file.fieldname)){
+            req.layers.push(file.fieldname);
+        }
+
         let filedir = './layers';
-       fs.mkdirSync(filedir+'/'+file.fieldname,{recursive:true});
+        fs.mkdirSync(filedir+'/'+file.fieldname,{recursive:true});
        cb(null,filedir+'/'+file.fieldname)
     },
     filename: function (req, file, cb) {
-        let files = 
-        cb(null, file.fieldname + '-' + Date.now() + `.${file.originalname.split('.').pop()}`)
+        cb(null, file.originalname)
     }
 });
 
