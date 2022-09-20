@@ -18,7 +18,7 @@ module.exports.upload = function(req,res,next){
 }
 
 
-module.exports.store = function(req,res){
+module.exports.NFTgen = function(req,res){
     if(req.fileValidationError){
         res.send(req.fileValidationError);
     }else{
@@ -36,7 +36,7 @@ module.exports.store = function(req,res){
           return {number:a.number+b.number}
         });
         buildSetup();
-        createFiles(layersOrder,47);
+        createFiles(layersOrder,10);
         createMetaData();
        res.send("done")
     }
