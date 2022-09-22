@@ -1,9 +1,36 @@
 const fs = require("fs");
-const { config } = require("process");
+const basePath = process.cwd();
 const upload = require("../services/fileUploadService");
-const {layers} = require('../src/config')
+const Handler = require('../handlers')
 const {buildSetup,createFiles,createMetaData,Canvas} = require('../src/main');
+const universalFunction = require('../lib/universal-function');
+const buildDir = `${basePath}/build/images`
 
+module.exports.signup = async function (req, res) {
+  try {
+
+      const response = await Handler.signup(req);
+      return universalFunction.sendResponse(res, response.status, response.message, response.data);
+
+  } catch (error) {
+
+      return universalFunction.errorResponse(res, error);
+
+  }
+};
+
+module.exports.login = async function (req, res) {
+  try {
+      
+      const response = await Handler.login(req);
+      return universalFunction.sendResponse(res, response.status, response.message, response.data);
+
+  } catch (error) {
+
+      return universalFunction.errorResponse(res, error);
+
+  }
+};
 
 module.exports.upload = function(req,res,next){
     let filedir = "./layers";
@@ -18,7 +45,7 @@ module.exports.upload = function(req,res,next){
 }
 
 
-module.exports.NFTgen = function(req,res){
+module.exports.NFTgen = async function(req,res){
     if(req.fileValidationError){
         res.send(req.fileValidationError);
     }else{
@@ -31,14 +58,12 @@ module.exports.NFTgen = function(req,res){
           let files = fs.readdirSync(filedir + "/" + req.layers[i]);
             layersOrder.push({name:req.layers[i],number:files.length})
         };
-        console.log(layersOrder);
-        let _edition = layersOrder.reduce((a,b) =>{
-          return {number:a.number+b.number}
-        });
+        let _edition = req.body.edition;
         buildSetup();
-        createFiles(layersOrder,10);
+        await createFiles(layersOrder,_edition);
         createMetaData();
-       res.send("done")
+        let nfts = fs.readdirSync(buildDir).map((name) => `/images/${name}`);
+        res.send({...nfts});
     }
     
 }

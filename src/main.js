@@ -139,7 +139,6 @@ const drawLayer = async (_layer, _edition) => {
     let eOurs = occurence[_layer.name].filter((val) => val == element.id).length;
      
     if(eOurs <= element.rarity && element.rarity != 0){
-      console.log(eOurs,"=>",element.rarity);
       occurence[_layer.name].push(element.id);
     addAttributes(element, _layer);
     const image = await loadImage(`${_layer.location}${element.fileName}`);
