@@ -16,8 +16,7 @@ const UserModel = new Schema({
     password: {
         type: String, index: true, required: true
     },
-    createdOn: { type: Date, default: new Date() },
-    updatedOn: { type: Date, default: new Date() }
-});
+  
+},{timestamps:true});
 
 module.exports = mongoose.model('users', UserModel);

@@ -4,8 +4,9 @@ const upload = require("../services/fileUploadService");
 const Handler = require('../handlers')
 const {buildSetup,createFiles,createMetaData,Canvas} = require('../src/main');
 const universalFunction = require('../lib/universal-function');
-const buildDir = `${basePath}/build/images`
-
+const buildDir = `${basePath}/build/images`;
+const Model = require('../models');
+let metafile = `${basePath}/build/json`;
 module.exports.signup = async function (req, res) {
   try {
 
@@ -18,6 +19,7 @@ module.exports.signup = async function (req, res) {
 
   }
 };
+
 
 module.exports.login = async function (req, res) {
   try {
@@ -56,13 +58,24 @@ module.exports.NFTgen = async function(req,res){
         let layersOrder = [];
         for(let i =0;i<req.layers.length;i++){
           let files = fs.readdirSync(filedir + "/" + req.layers[i]);
-            layersOrder.push({name:req.layers[i],number:files.length})
+            layersOrder.push({name:req.layers[i],number:files.length});
         };
         let _edition = req.body.edition;
         buildSetup();
         await createFiles(layersOrder,_edition);
         createMetaData();
+        let collection = {
+          userID:req.loggedUser._id,
+          name:req.body.collection,
+          layers:fs.readdirSync(filedir).length,
+          // details:fs.readFileSync(metafile+'/'+'_metadata.json')
+        }
+        
+        await Model.collections.create(collection);
         let nfts = fs.readdirSync(buildDir).map((name) => `/images/${name}`);
+        let data = fs.readFileSync(metafile+'/'+'_metadata.json');
+       
+        console.log(data);
         res.send({...nfts});
     }
     
