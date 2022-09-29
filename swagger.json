@@ -1,0 +1,206 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "NFT generator",
+    "description": "This is a sample server for a NFT generator.",
+    "termsOfService": "http://example.com/terms/",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.example.com/support",
+      "email": "support@example.com"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Development server",
+      "variables": {
+        "port": {
+          "default": "8000"
+        },
+        "basePath": {
+          "default": "/"
+        }
+      }
+    }
+  ],
+  "components":{
+     "securitySchemes":{
+        "authorization":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}
+     }
+  },
+    "security":[{ "authorization":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}}],
+  "paths": {
+    "/signup": {
+      "post": {
+         "summary": "",
+          "operationId": "signup",
+          "parameters": [], 
+          "requestBody": {
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": { 
+                      "description": "FirstName",
+                      "type": "string"
+                    },
+                    "lastName": { 
+                      "description": "LastName",
+                      "type": "string"
+                    },
+                    "email": {
+                      "description": "email",
+                      "type": "string"
+                    },
+                    "mobileNumber": {
+                        "description": "mobileNumber",
+                        "type": "string"
+                      },
+                      "password": {
+                        "description": "password",
+                        "type": "string"
+                      }
+                  },
+                  "required": ["email"] 
+                }
+              }
+            }
+          },
+          "security": [],
+          "responses": {
+            "200": {
+              "description": "Registered",
+              "content": {
+                "application/json": {},
+                "application/xml": {}
+              }
+            },
+            "405": {
+              "description": "Method Not Allowed",
+              "content": {
+                "application/json": {},
+                "application/xml": {}
+              }
+            }
+          }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "",
+        "operationId": "login",
+        "parameters": [], 
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "description": "email",
+                    "type": "string"
+                  },
+                    "password": {
+                      "description": "password",
+                      "type": "string"
+                    }
+                },
+                "required": ["email","password"] 
+              }
+            }
+          }
+        },
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "LoggedIn"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "/createCollection": {
+      "post": {
+        "summary": "",
+        "operationId": "createCollection",
+        "parameters": [], 
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "collection": {
+                    "description": "collection name",
+                    "type": "number"
+                  },
+                    "height": {
+                      "description": "height",
+                      "type": "number"
+                    },
+                    "width":{
+                      "description": "width",
+                      "type": "number"
+                    }
+                    
+                },
+                "required": ["collection","height","width"] 
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "CREATED"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "/addLayer": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/upload": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/generateNFT": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/nftgen": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

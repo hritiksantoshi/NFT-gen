@@ -11,6 +11,14 @@ const CollectionModel = new Schema({
         required: true,
          default: ''
     },
+    height:{
+        type: Number,
+        required: true
+    },
+    width:{
+        type: Number,
+        required: true
+    },
     layers:{
         type: String,
         default:''

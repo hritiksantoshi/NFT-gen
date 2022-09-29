@@ -22,9 +22,9 @@ if (!process.env.PWD) {
   process.env.PWD = process.cwd();
 }
 
-const buildDir = `${process.env.PWD}/build`;
+let buildDir;
 const metDataFile = '_metadata.json';
-const layersDir = `${process.env.PWD}/layers`;
+let layersDir;
 
 let metadata = [];
 let attributes = [];
@@ -65,12 +65,12 @@ const getElements = (path,total) => {
     });
 };
 
-const layersSetup = layersOrder => {
+const layersSetup = (layersOrder,path) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     name: layerObj.name,
-    location: `${layersDir}/${layerObj.name}/`,
-    elements: getElements(`${layersDir}/${layerObj.name}/`,layerObj.number),
+    location: `${path}/${layerObj.name}/`,
+    elements: getElements(`${path}/${layerObj.name}/`,layerObj.number),
     position: { x: 0, y: 0 },
     size: { width: format.width, height: format.height },
     number: layerObj.number
@@ -79,7 +79,8 @@ const layersSetup = layersOrder => {
   return layers;
 };
 
-const buildSetup = () => {
+const buildSetup = (builddir) => {
+  buildDir = builddir;
   if (fs.existsSync(buildDir)) {
     fs.rmdirSync(buildDir, { recursive: true });
   }
@@ -150,6 +151,7 @@ const drawLayer = async (_layer, _edition) => {
       _layer.size.width,
       _layer.size.height
     );
+    console.log(canvas,"ghh");
     saveLayer(canvas, _edition);
      draw = false;
     }
@@ -157,12 +159,13 @@ const drawLayer = async (_layer, _edition) => {
 }while(draw);
 };
 
-const createFiles = async (layersOrder,Edition) => {
+const createFiles = async (layersOrder,Edition,path) => {
   edition = Edition;
+  layersDir = path;
   layersOrder.forEach(({name}) =>{
     occurence[name] =[];
   })
-  const layers = layersSetup(layersOrder);
+  const layers = layersSetup(layersOrder,path);
 
   let numDupes = 0;
  for (let i = 1; i <= edition; i++) {
@@ -185,6 +188,7 @@ const createFiles = async (layersOrder,Edition) => {
      addMetadata(i);
      saveMetaData(i);
      console.log("Creating edition " + i);
+     console.log(Exists);
    }
  }
 };
