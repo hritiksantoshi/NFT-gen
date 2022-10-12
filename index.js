@@ -10,13 +10,24 @@ const dotenv = require('dotenv');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 dotenv.config({ path:'./.env' });
-
+const corsOptions = {
+  origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (['http://localhost:3000', 'http://localhost:8000'].indexOf(origin) === -1) {
+          let msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+          return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+  },
+  optionsSuccessStatus: 200
+};
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/',router);
 app.use('/images',express.static(path.join(__dirname,"build/images")));
+
 connection.connect().then((connected) => {
 
   app.listen(config.PORT , (err) => {
