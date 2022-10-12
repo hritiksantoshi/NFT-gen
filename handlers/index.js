@@ -191,6 +191,7 @@ module.exports.uploadImges = async function (req) {
             }
           });
 
+         
             for (const key in occurences) {
                 if (Object.hasOwnProperty.call(occurences, key)) {
                     const Images = occurences[key];
@@ -215,9 +216,7 @@ module.exports.uploadImges = async function (req) {
 
 module.exports.generateNFT = async function (req) {
     try { 
-             if(req.fileValidationError){
-        res.send(req.fileValidationError);
-    }else{
+           
           let collection = await Model.collections.findOne({
             _id:req.body.collectionId,
             userID:req.loggedUser._id
@@ -225,7 +224,6 @@ module.exports.generateNFT = async function (req) {
         let width = parseInt(collection.width);
         let height = parseInt(collection.height);
         Canvas(width,height);
-        let collectionName = req.body.name;
         let buildPath = `${nftDir}/${req.loggedUser._id}/${collection.name}/build`;
         let _edition = req.body.edition;
         let layerOrder = collection.layersOrder.map((name) =>{
@@ -236,16 +234,13 @@ module.exports.generateNFT = async function (req) {
         })
         buildSetup(buildPath);
         await createFiles(layerOrder,_edition,`${nftDir}/${req.loggedUser._id}/${collection.name}/layers`);
-
+        createMetaData();
       
        
         return {
-            status: statusCodes.SUCCESS,
-            message:'CREATED',
+            status: statusCodes.CREATED,
+            message:'CREATED'
         }
-
-
-    }
         
     }
     catch (error) {

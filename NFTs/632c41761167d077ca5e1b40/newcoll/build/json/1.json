@@ -1,0 +1,27 @@
+{
+  "hash": "0112",
+  "decodedHash": [
+    {
+      "0": 1
+    },
+    {
+      "1": 2
+    }
+  ],
+  "edition": 1,
+  "date": 1665555583750,
+  "attributes": [
+    {
+      "id": 1,
+      "layer": "BG",
+      "name": "133",
+      "rarity": 1
+    },
+    {
+      "id": 2,
+      "layer": "Body",
+      "name": "2",
+      "rarity": 1
+    }
+  ]
+}

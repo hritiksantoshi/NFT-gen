@@ -1,0 +1,56 @@
+[
+  {
+    "hash": "0112",
+    "decodedHash": [
+      {
+        "0": 1
+      },
+      {
+        "1": 2
+      }
+    ],
+    "edition": 1,
+    "date": 1665555583750,
+    "attributes": [
+      {
+        "id": 1,
+        "layer": "BG",
+        "name": "133",
+        "rarity": 1
+      },
+      {
+        "id": 2,
+        "layer": "Body",
+        "name": "2",
+        "rarity": 1
+      }
+    ]
+  },
+  {
+    "hash": "0212",
+    "decodedHash": [
+      {
+        "0": 2
+      },
+      {
+        "1": 2
+      }
+    ],
+    "edition": 2,
+    "date": 1665555584991,
+    "attributes": [
+      {
+        "id": 2,
+        "layer": "BG",
+        "name": "233",
+        "rarity": 1
+      },
+      {
+        "id": 2,
+        "layer": "Body",
+        "name": "2",
+        "rarity": 1
+      }
+    ]
+  }
+]
